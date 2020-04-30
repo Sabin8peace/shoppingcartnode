@@ -37,12 +37,15 @@ app.set('view engine','ejs');
 app.use(express.static(path.join(__dirname,'public')));
 app.locals.errors=null;
 app.locals.imageFile=null;
+app.locals.navpages=null;
+// app.locals.categorylist=null;
+
+// get page model
 // Express file upload middleware
 app.use(fileUpload());
 
 // body parser middleware
 
- 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
  
@@ -113,12 +116,33 @@ app.use(function (req, res, next) {
 //     });//since we have announced views folder to use above
 //     });
 
+// get category list
+var categoryModel=require('./models/category');
+categoryModel.find((err,category)=>{
+  if (err) {
+    console.log(err);
+    
+  }
+  else{
+    app.locals.categorylist=category;
+  }
+
+});
+const pageModel=require('./models/page');
+var mysort = {sorting: 1 };
+pageModel.find().sort(mysort)
+    .then((pages)=>{
+        app.locals.navpages=pages;
+    
+}).catch(err=>console.log(err));
+
+
 // set routes 
-const pages=require('./routes/pages.js');
+const frontend=require('./routes/frontroute.js');
 const adminPages=require('./routes/admin_pages.js');
 const adminCategories=require('./routes/admin_categories.js');
 const adminProducts=require('./routes/admin_products.js');
-app.use('/',pages); //this repesents the base url from frontend
+app.use('/',frontend); //this repesents the base url from frontend
 app.use('/admin/pages',adminPages); // this represents the base url for admin template
 app.use('/admin/categories',adminCategories); // this represents the base url for admin template
 app.use('/admin/products',adminProducts); // this represents the base url for admin template
