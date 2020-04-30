@@ -44,6 +44,16 @@ exports.updateFunction=(req,res)=>{
                         return console.log(err);
                     }
                     console.log("done");
+                    categoryModel.find((err,category)=>{
+                        if (err) {
+                          console.log(err);
+                          
+                        }
+                        else{
+                          req.app.locals.categorylist=category;
+                        }
+                      
+                      });
                     req.flash('success',"Category updated");
                     res.redirect('/admin/categories');
 
@@ -118,6 +128,16 @@ exports.storeFunction=(req,res)=>{
                         return console.log(err);
                     }
                     console.log("done");
+                    categoryModel.find((err,category)=>{
+                        if (err) {
+                          console.log(err);
+                          
+                        }
+                        else{
+                          req.app.locals.categorylist=category;
+                        }
+                      
+                      });
                     req.flash('success',"Category added");
                     res.redirect('/admin/categories');
 
@@ -160,6 +180,16 @@ exports.deleteFunction=(req,res)=>{
             return console.log(err);
         }
         console.log("done");
+        categoryModel.find((err,category)=>{
+            if (err) {
+              console.log(err);
+              
+            }
+            else{
+              req.app.locals.categorylist=category;
+            }
+          
+          });
         req.flash('success',"Category Deleted");
         res.redirect('/admin/categories');
 

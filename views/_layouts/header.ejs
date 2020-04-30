@@ -7,27 +7,40 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Front View</title>
+    <title><%=title%></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/style.css">
   </head>
 
   <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">Navbar</a>
+      <a class="navbar-brand" href="/">Our Own Shooping</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="admin/pages">Pages</a>
-          </li>
+          <% navpages.forEach(function(data){ %>
+            <%if(data.slug== "home"){%>
+              <li class="nav-item">
+                <a class="nav-link" href="/"><%=data.title%></a>
+              </li>
+              <%} else{%>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%=data.slug%>"><%=data.title%></a>
+                </li>
+                <%}%>
+           
+
+          <% }); %>
+
+         
           <!-- <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
@@ -55,5 +68,27 @@
 
     <div class="container">
       <%- messages('messages', locals) %>
+      <div class="row">
+        <div class="col-xs-12 col-md-3">
+          <h3>Categories</h3>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a href="/products">All Products</a>
+            
+            </li>
+            <% categorylist.forEach(function(data){ %>
+              <li class="list-group-item">
+                <a href="/products/<%=data.slug%>"><%=data.title%></a></a>
+              </li>
+
+          <% }); %>
+          </ul>
+
+        </div>
+        <div class="col-xs-12 col-md-1"></div>
+        <div class="col-xs-12 col-md-8">
+
+      
+
 
 
