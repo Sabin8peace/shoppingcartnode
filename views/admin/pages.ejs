@@ -1,0 +1,72 @@
+<%- include('../_layouts/adminheader'); -%>
+<table style="width:100%" class="table">
+  <tr>
+      <th class="headtext">
+          Pages
+      </th>
+      <th class="float-right">
+          <a href="/admin/pages/add-page" class="btn btn-primary pull-right">
+              Add Page</a>
+      </th>
+  </tr>
+</table>
+<hr>
+
+<div class="row container" style="border: 1px solid #ccc;">
+    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-striped products sorting">
+                    <thead>
+                        <tr class="home">
+                           <th>Title</th>
+                           <th>Slug</th>
+                           <th>Edit</th>
+                           <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% pages.forEach(function(page){ %>
+                            <tr id="id_<%=page._id%>" class="<%=page.slug%>">
+                                <td> <%= page['title'] %></td>
+                                <td> <%= page['slug'] %></td>
+                                <td><a href="/admin/pages/edit-page/<%=page.slug%>">Edit</a></td>
+                                <%if (page.slug=="home"){%>
+                                <td></td>
+                                <%} else{%>
+                                <td><a class="confirmdeletion" href="/admin/pages/delete-page/<%=page._id%>">Delete</a></td>
+                                <%}%>
+                            </tr>
+                             
+                         <% }); %>
+
+
+                    </tbody>
+                    
+                </table>
+             
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script> -->
+<script>
+    var $table = jQuery('table.products tbody');
+
+$table.sortable();
+$table.sortable('serialize');
+    $table.sortable({
+        items:"tr:not('.home')",
+        placeholder:"ui-state-highlight",
+        update:function(){
+            // var ids=$('tbody').sortable("serialize");
+            var ids=$table.sortable('serialize');
+            var url="/admin/pages/reorder-page";
+            $.post(url,ids);
+
+        }
+    });
+</script>
+<%- include('../_layouts/adminfooter'); -%>
