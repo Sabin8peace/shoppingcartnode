@@ -107,6 +107,13 @@ app.use(function (req, res, next) {
   next();
 });
 
+// cart variable will be available now in each get request autometically
+app.get('*',function(req,res,next){
+  res.locals.cart=req.session.cart;
+  next();
+
+});
+
 
 // app.get('/',(req,res)=>{
 //     // res.send("working");
@@ -137,15 +144,20 @@ pageModel.find().sort(mysort)
 }).catch(err=>console.log(err));
 
 
+
+
 // set routes 
 const frontend=require('./routes/frontroute.js');
+const cart=require('./routes/cart.js');
 const adminPages=require('./routes/admin_pages.js');
 const adminCategories=require('./routes/admin_categories.js');
 const adminProducts=require('./routes/admin_products.js');
+app.use('/cart',cart); // this represents the base url for admin template
 app.use('/',frontend); //this repesents the base url from frontend
 app.use('/admin/pages',adminPages); // this represents the base url for admin template
 app.use('/admin/categories',adminCategories); // this represents the base url for admin template
 app.use('/admin/products',adminProducts); // this represents the base url for admin template
+
 
 // start server
 const port=3000;

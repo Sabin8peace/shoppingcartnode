@@ -4,6 +4,7 @@ const categoryModel=require('../models/category');
 const fs=require('fs-extra');
 
 
+
 exports.getPage=(req,res)=>{
     var slug=req.params.slug;
     pageModel.findOne({slug:slug},(err,data)=>{
