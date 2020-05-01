@@ -73,6 +73,8 @@ exports.getProductByCategory=(req,res)=>{
 }
 exports.productDetail=(req,res)=>{
     var galleryImages=null;
+    var loggedIn=(req.isAuthenticated())?true:false;
+    // console.log("loggedin",loggedIn);
     var slug=req.params.product;
     productModel.findOne({slug:slug},(err,p)=>{
         if (err) {
@@ -90,7 +92,9 @@ exports.productDetail=(req,res)=>{
                     res.render('front/product',{
                         title:p.title,
                         product:p,
-                        galleryImages:galleryImages
+                        galleryImages:galleryImages,
+                        loggedIn:loggedIn
+
                     });
                 }
 
@@ -101,15 +105,8 @@ exports.productDetail=(req,res)=>{
             
 
         }
-      
-            
-
-       
-
-    });
-   
-
   
+    });
 
 }
 

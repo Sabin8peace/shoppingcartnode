@@ -1,3 +1,38 @@
+exports.userLoginValitor=(req,res,next)=>{
+    req.check('username',"username is required").notEmpty();
+    req.check('password',"Password is required").notEmpty();
+    var errorstmp=req.validationErrors();
+    if(errorstmp){ 
+        errors=errorstmp;
+    }
+    else
+    {
+        errors=null;
+    }
+    
+    next();
+
+}
+exports.createUserValitor=(req,res,next)=>{
+    req.check('name',"Name Is Required").notEmpty();
+    req.check('email','email is required').isLength({
+        max:130
+    });
+    req.check('username',"username is required").notEmpty();
+    req.check('password',"Password is required").notEmpty();
+    req.check('password2',"Password not match").equals(req.body.password);
+    
+    var errorstmp=req.validationErrors();
+    if(errorstmp){ 
+        errors=errorstmp;
+    }
+    else
+    {
+        errors=null;
+    }
+    
+    next();
+}
 exports.createPageValitor=(req,res,next)=>{
     req.check('title',"write title here").notEmpty();
     req.check('title','title must be long').isLength({

@@ -6,7 +6,9 @@ const session=require('express-session');
 const fileUpload=require('express-fileupload');
 const expressValidator=require('express-validator');
 let config=require('./config/database');
+let auth=require('./config/auth');
 var S = require('string');
+var passport=require('passport');
 
 // connect to db 
 // mongoose.connect(config.database,{
@@ -107,9 +109,16 @@ app.use(function (req, res, next) {
   next();
 });
 
+require('./config/passport')(passport);
+//passsporr middleware
+app.use(passport.initialize());
+app.use(passport.session());
 // cart variable will be available now in each get request autometically
 app.get('*',function(req,res,next){
   res.locals.cart=req.session.cart;
+  res.locals.user=req.user||null;
+
+  
   next();
 
 });
@@ -149,10 +158,12 @@ pageModel.find().sort(mysort)
 // set routes 
 const frontend=require('./routes/frontroute.js');
 const cart=require('./routes/cart.js');
+const user=require('./routes/users.js');
 const adminPages=require('./routes/admin_pages.js');
 const adminCategories=require('./routes/admin_categories.js');
 const adminProducts=require('./routes/admin_products.js');
 app.use('/cart',cart); // this represents the base url for admin template
+app.use('/user',user); // this represents the base url for admin template
 app.use('/',frontend); //this repesents the base url from frontend
 app.use('/admin/pages',adminPages); // this represents the base url for admin template
 app.use('/admin/categories',adminCategories); // this represents the base url for admin template
