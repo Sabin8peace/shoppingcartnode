@@ -1,7 +1,8 @@
 const express=require('express');
-const mkdirp=require('mkdirp');
+// const mkdirp=require('mkdirp');
 const fs=require('fs-extra');
-const resizeImg=require('resize-img');
+
+// const resizeImg=require('resize-img');
 const {createFunction,storeFunction,deleteGallery,uploadGallery,updateFunction,deleteFunction,editFunction,indexFunction}=require('../controllers/adminProducts');
 const router=express.Router();
 const {productValidator}=require('../validator');
